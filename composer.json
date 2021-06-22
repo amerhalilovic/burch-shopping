@@ -1,0 +1,12 @@
+{
+    "name": "home/burch-shopping",
+    "authors": [
+        {
+            "name": "amerhalilovic",
+            "email": "amer.malibu@gmail.com"
+        }
+    ],
+    "require": {
+        "mikecao/flight": "^1.3"
+    }
+}

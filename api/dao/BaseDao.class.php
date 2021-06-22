@@ -56,11 +56,23 @@ class BaseDao
             $query .= $name . "= :" . $name . ", ";
         }
         $query = substr($query, 0, -2);
-        $query .= " WHERE ${id_column}=:id}";
+        $query .= " WHERE ${id_column}=:id";
 
         $stmt = $this->connection->prepare($query);
         $entity['id'] = $id;
         $stmt->execute($entity);
+    }
+
+    public function get_all($offset = 0, $limit = 25)
+    {
+        return $this->query("SELECT * FROM " . $this->table . " LIMIT ${limit} OFFSET ${offset}", []);
+    }
+
+    protected function query($query, $params)
+    {
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function get_by_id($id)
@@ -72,13 +84,6 @@ class BaseDao
     {
         $results = $this->query($query, $params);
         return reset($results);
-    }
-
-    protected function query($query, $params)
-    {
-        $stmt = $this->connection->prepare($query);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 
