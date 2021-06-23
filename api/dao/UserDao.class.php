@@ -18,6 +18,13 @@ class UserDao extends BaseDao
         return $this->query_unique("SELECT * FROM users WHERE id=:id", ['id' => $id]);
     }
 
+    public function get_user_search($search, $offset, $limit)
+    {
+        return $this->query("SELECT * FROM users
+                                    WHERE name LIKE CONCAT('%',:name,'%') LIMIT ${limit}
+                                    OFFSET ${offset}", ['name' => strtolower($search)]);
+    }
+
     public function add_user($user)
     {
         $this->insert("users", $user);
@@ -25,7 +32,7 @@ class UserDao extends BaseDao
 
     public function update_user($id, $user)
     {
-        $this->update("users", $id, $user);
+        $this->update($id, $user);
     }
 
 
